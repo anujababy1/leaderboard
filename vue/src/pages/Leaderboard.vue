@@ -11,11 +11,17 @@
             >
                 <div class="relative mb-1 sm:mb-0">
                     <select
-                        class="appearance-none h-full rounded border block w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        @change="getCompetitors"
+                        v-model="sortBy"
+                        class="appearance-none h-full rounded border block w-full bg-white border-gray-300 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-violet-500"
                     >
-                        <option>Sory by name ASC</option>
-                        <option>10</option>
-                        <option>20</option>
+                        <option
+                            v-for="option in sortOptions"
+                            :value="option.value"
+                            :key="option.value"
+                        >
+                            {{ option.label }}
+                        </option>
                     </select>
                     <div
                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -46,17 +52,20 @@
                         </svg>
                     </span>
                     <input
-                        placeholder="Search"
-                        class="appearance-none rounded-r rounded-l sm:rounded-l border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                        placeholder="Type a name and press Enter to search..."
+                        v-model="searchName"
+                        @keyup.enter="getCompetitors"
+                        class="w-full sm:w-80 appearance-none rounded-r rounded-l sm:rounded-l border border-gray-300 border-b block pl-8 pr-6 py-2 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none focus:border-violet-500"
                     />
                 </div>
 
-                <div class="block relative">
-                    <button
-                        class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
+                <div class="relative mb-1 sm:mb-0 self-center">
+                    <router-link
+                        :to="{ name: 'CreateCompetitor' }"
+                        class="text-sm bg-emerald-700 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded"
                     >
                         Add User
-                    </button>
+                    </router-link>
                 </div>
             </div>
 
@@ -68,143 +77,168 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                    class="px-5 py-3 border-b-2 border-violet-700 bg-violet-700 text-left text-xs font-semibold text-white uppercase tracking-wider"
                                 >
                                     User
                                 </th>
                                 <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                    class="px-5 py-3 border-b-2 border-violet-700 bg-violet-700 text-left text-xs font-semibold text-white uppercase tracking-wider"
                                 >
                                     Points
                                 </th>
                                 <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                    class="sm:w-64 px-5 py-3 border-b-2 border-violet-700 bg-violet-700 text-left text-xs font-semibold text-white uppercase tracking-wider"
                                 >
                                     Actions
                                 </th>
                                 <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                    class="sm:w-64 px-5 py-3 border-b-2 border-violet-700 bg-violet-700 text-left text-xs font-semibold text-white uppercase tracking-wider"
                                 >
                                     Delete
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td
-                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                >
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        Vera Carpenter
-                                    </p>
-                                </td>
-                                <td
-                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                >
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        Admin
-                                    </p>
-                                </td>
-                                <td
-                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                >
-                                    <!-- <p class="text-gray-900 whitespace-no-wrap">
-                                        Jan 21, 2020
-                                    </p> -->
-                                    <div class="flex items-center space-x-3">
-                                        <button
-                                            class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                            type="button"
-                                        >
-                                            <span class="sr-only"
-                                                >Quantity button</span
-                                            >
-                                            <svg
-                                                class="w-3 h-3"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 18 2"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M1 1h16"
-                                                />
-                                            </svg>
-                                        </button>
-                                        <div>
-                                            <!-- <input
-                                                type="number"
-                                                id="first_product"
-                                                class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="1"
-                                                required
-                                            /> -->
-                                        </div>
-                                        <button
-                                            class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                            type="button"
-                                        >
-                                            <span class="sr-only"
-                                                >Quantity button</span
-                                            >
-                                            <svg
-                                                class="w-3 h-3"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 18 18"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M9 1v16M1 9h16"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td
-                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                >
-                                    <div class="flex items-center">
-                                        <div class="ml-3">
-                                            <button
-                                                class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                type="button"
-                                            >
-                                                <span class="sr-only"
-                                                    >Quantity button</span
-                                                >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke-width="1.5"
-                                                    stroke="currentColor"
-                                                    class="w-6 h-6"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
+                        <tbody v-if="loading">
+                            <tr class="h-10 text-center">
+                                <td colspan="4" class="h-16">
+                                    <svg
+                                        aria-hidden="true"
+                                        role="status"
+                                        class="inline mr-3 w-4 h-4 text-violet-700 animate-spin"
+                                        viewBox="0 0 100 101"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                            fill="#E5E7EB"
+                                        ></path>
+                                        <path
+                                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                            fill="currentColor"
+                                        ></path>
+                                    </svg>
+                                    Loading...
                                 </td>
                             </tr>
                         </tbody>
+                        <tbody
+                            v-else-if="
+                                Object.keys(competitors).length &&
+                                competitors.data.length
+                            "
+                        >
+                            <Competitor
+                                v-for="competitor in competitors.data"
+                                :key="competitor.id"
+                                :competitor="competitor"
+                                @refreshLeaderboard="refreshLeaderboardHandler"
+                            ></Competitor>
+                        </tbody>
+                        <tbody v-else>
+                            <tr class="h-10 text-center">
+                                <td colspan="4">No user found</td>
+                            </tr>
+                        </tbody>
                     </table>
+                    <div
+                        v-if="
+                            !loading &&
+                            Object.keys(competitors).length &&
+                            competitors.data.length &&
+                            competitors.last_page !== 1
+                        "
+                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between"
+                    >
+                        <span class="text-xs xs:text-sm text-gray-900">
+                            Showing {{ competitors.from }} to
+                            {{ competitors.to }} of
+                            {{ competitors.total }} Entries
+                        </span>
+                        <div class="inline-flex mt-2 xs:mt-0">
+                            <button
+                                @click="prevPage"
+                                class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                            >
+                                Prev
+                            </button>
+                            <button
+                                @click="nextPage"
+                                class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-<script></script>
+<script>
+import Competitor from "../components/competitors/Competitor.vue";
+export default {
+    components: {
+        Competitor,
+    },
+    data() {
+        return {
+            loading: false,
+            searchName: "",
+            sortBy: "points-desc",
+            sortOptions: [
+                {
+                    value: "points-desc",
+                    label: "Sort by: Points - High to low",
+                },
+                { value: "points-asc", label: "Sort by: Points - Low to high" },
+                { value: "name-asc", label: "Sort by: Name - A-Z" },
+                { value: "name-desc", label: "Sort by: Name - Z-A" },
+            ],
+        };
+    },
+    created() {
+        this.getCompetitors();
+    },
+    computed: {
+        competitors() {
+            return this.$store.state.competitors;
+        },
+    },
+    methods: {
+        async getCompetitors(page = 1) {
+            let self = this;
+            self.loading = true;
+            let data = {
+                search_name: self.searchName,
+                order_by: self.sortBy,
+                page: page,
+                per_page: 5,
+            };
+            const resp = await this.$store.dispatch("getCompetitors", data);
+            if (!resp.status) {
+                self.error =
+                    resp.data.response.data.error ||
+                    resp.data.response.data.message ||
+                    "An error occurred while processing your request. Please try again later";
+            }
+            self.loading = false;
+        },
+        prevPage() {
+            if (this.competitors.current_page <= 1) {
+                return false;
+            }
+            this.getCompetitors(this.competitors.current_page - 1);
+        },
+        nextPage() {
+            if (this.competitors.current_page >= this.competitors.last_page) {
+                return false;
+            }
+            this.getCompetitors(this.competitors.current_page + 1);
+        },
+        refreshLeaderboardHandler() {
+            this.getCompetitors();
+        },
+    },
+};
+</script>

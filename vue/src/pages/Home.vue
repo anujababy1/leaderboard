@@ -12,7 +12,7 @@
 
                 <router-link
                     :to="{ name: 'Leaderboard' }"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full mt-4"
+                    class="bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2 px-4 rounded-full mt-4"
                 >
                     Get Started
                 </router-link>
