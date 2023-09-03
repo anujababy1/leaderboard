@@ -90,12 +90,12 @@ If you don't have Docker installed, you will need PHP 8, MySQL, and Composer. Yo
     Create a `.env.testing` file by copying `.env.testing.example`. Provide the testing database credentials and an application key inside the .env.testing file.
 
     Run the migrations for the testing database using the following command
-    `      php artisan migrate --env=testing
-     `
+    `     php artisan migrate --env=testing
+`
 
     To run the tests, use the command
-    `       php artisan test
-     `
+    `      php artisan test
+`
 
 ### Frontend setup (Vue)
 
@@ -148,3 +148,95 @@ If you don't have Docker installed, Node.js is required to run the application.
     npm run dev
     ```
 -   Now, the application is available at `http://localhost:8002`
+
+## API Reference
+
+APIs for all CRUD operations related to competitors.
+
+**Authentication** \
+Authentication is required to access the APIs.You need to include an Authorization header with a valid access token in each request.
+
+**Header**\
+Accept : application/json\
+Authorization : Bearer {token}
+
+**Status Codes**\
+200 - Success response (GET requests)\
+201 - Success response (POST and PUT requests, indicating the creation of a new resource)\
+204 - Success response (DELETE requests, indicating successful removal of a resource)\
+500 - Internal server error\
+422 - Validation error\
+401 - Unauthorized request\
+404 - Not found
+
+#### Get all competitors
+
+```http
+  GET /api/competitors
+```
+
+| Parameter   | Type    | Description                                                                                        | Default     |
+| :---------- | :------ | :------------------------------------------------------------------------------------------------- | ----------- |
+| search_name | string  | Search by name (Optional)                                                                          | -           |
+| order_by    | string  | Sort competitors (Optional) **/** Possible Values are `points-desc,points-asc, name-asc,name-desc` | points-desc |
+| per_page    | integer | Number of results per page                                                                         | 10          |
+| page        | integer | page of results to fetch                                                                           | 1           |
+
+Request Body : { "search_name": "John", "order_by":"name-asc","per_page": 100,"page": 1}
+
+Response Body :
+{ “data”: [...], "total": 500, "per_page": 100, "current_page": 1, "last_page": 4, }
+
+#### Get competitor
+
+```http
+  GET /api/competitors/${id}
+```
+
+Response Body :
+{ "id": 1, "name": "John","age": 34,"address": "Toronto,CA","points": 12,"created_at":"2023-07-07T12:34:56Z",
+"updated_at": "2023-07-07T12:34:56Z" }
+
+#### Create competitor
+
+```http
+  POST /api/competitors
+```
+
+| Parameter | Type    | Description                                                                      |
+| :-------- | :------ | :------------------------------------------------------------------------------- |
+| name      | string  | **Required**. Competitor name                                                    |
+| address   | string  | **Required**. Competitor address                                                 |
+| age       | integer | **Required**. Competitor age (should be between 10 and 120)                      |
+| points    | integer | **Required**.Points must begin at 0 and are not allowed to have negative values. |
+
+Request Body : { "name": " John" , "address":" Toronto,CA" ,"age":34 ,"points": 12}
+
+Response Body :
+{ "id": 1, "name": "John","age": 34,"address": "Toronto,CA","points": 12,"created_at":"2023-07-07T12:34:56Z",
+"updated_at": "2023-07-07T12:34:56Z" }
+
+#### Update competitor
+
+```http
+  PUT /api/competitors/{id}
+```
+
+| Parameter | Type    | Description                                                                                                                         |
+| :-------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------- |
+| name      | string  | Competitor name. The parameter is optional, but if it exists, it cannot be null.                                                    |
+| address   | string  | Competitor address. The parameter is optional, but if it exists, it cannot be null.                                                 |
+| age       | integer | Competitor age (should be between 10 and 120) . The parameter is optional, but if it exists, it cannot be null.                     |
+| points    | integer | Points must begin at 0 and are not allowed to have negative values. The parameter is optional, but if it exists, it cannot be null. |
+
+Request Body : { "name": " John" , "address":" Toronto,CA" ,"age":12 ,"points" : 32}
+
+Response Body :
+{ "id": 1, "name": "John","age": 12,"address": "Toronto,CA","points": 32,"created_at":"2023-07-07T12:34:56Z",
+"updated_at": "2023-07-07T12:34:56Z" }
+
+#### Delete competitor
+
+```http
+  DELETE /api/competitors/{id}
+```
