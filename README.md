@@ -1,10 +1,10 @@
 # Leaderboard Application.
 
-A leaderboard application is a digital tool that keeps track of and displays rankings for individuals based on their performance or achievements in a particular competition, game, or activity.
+Leaderboard application is a digital tool that keeps track of and displays rankings for individuals based on their performance or achievements in a particular competition, game, or activity.
 
 -   This project is built with Vue.js (Vue 3 Options Api) for the frontend and Laravel (version 10) for the backend. The frontend and backend are interconnected through RESTful APIs.
 
--   Frontend Vue.js single-page application (SPA) incorporates several essential technologies for its development, including `Redux` for state management, `Vue Router` for client-side routing, `Axios` for making HTTP requests, and `Tailwind CSS` for styling and design.
+-   Frontend Vue.js single-page application (SPA) incorporates several essential technologies for its development, including `Vuex` for state management, `Vue Router` for client-side routing, `Axios` for making HTTP requests, and `Tailwind CSS` for styling and design.
 
 -   The backend Laravel application utilizes Static Token Authentication to enhance the security of the REST APIs, with the incorporation of PHPUnit tests for robust testing.
 
@@ -56,14 +56,14 @@ This project's repository includes Docker configurations. If Docker is installed
 
 -   Now, the application is available at `http://127.0.0.1:80`, and PHPMyAdmin is accessible at `http://127.0.0.1:8001`
 
--   To run the unit test test
+-   To run the unit test
     ```bash
-    ./vendor/bin/sail test
+    ./vendor/bin/sail artisan test
     ```
 
 **_Without Docker_**
 
-If you don't have Docker installed, you will need PHP 8, MySQL, and Composer. You'll also need to install Composer dependencies manually. Alternatively, you can use XAMPP, WAMP, or LAMP for your development environment.
+If you don't have Docker installed, you will need PHP 8, MySQL, and Composer. You'll also need to install Composer dependencies manually. You can use XAMPP, WAMP, or LAMP for your development environment for PHP and MySQL.
 
 -   Create a `.env` file by copying `.env.example`. Provide the DB credentials and API_TOKEN value.
 
@@ -90,12 +90,10 @@ If you don't have Docker installed, you will need PHP 8, MySQL, and Composer. Yo
     Create a `.env.testing` file by copying `.env.testing.example`. Provide the testing database credentials and an application key inside the .env.testing file.
 
     Run the migrations for the testing database using the following command
-    `     php artisan migrate --env=testing
-`
+    `php artisan migrate --env=testing`
 
     To run the tests, use the command
-    `      php artisan test
-`
+    `php artisan test`
 
 ### Frontend setup (Vue)
 
@@ -112,10 +110,6 @@ A Vue single-page application (SPA) is placed inside the `vue` directory. This i
 -   Run this command to build the image on your local machine and start the container.
     ```bash
     docker-compose up -d
-    ```
--   Install the project dependencies
-    ```bash
-    docker exec vite_docker npm install
     ```
 -   Install the project dependencies
     ```bash
@@ -162,10 +156,10 @@ Authorization : Bearer {token}
 
 **Status Codes**\
 200 - Success response (GET requests)\
-201 - Success response (POST and PUT requests, indicating the creation of a new resource)\
+201 - Success response (POST and PUT requests, indicating the creation/updation of a new resource)\
 204 - Success response (DELETE requests, indicating successful removal of a resource)\
 500 - Internal server error\
-422 - Validation error\
+422 - Unprocessable Entity.Validation error\
 401 - Unauthorized request\
 404 - Not found
 
